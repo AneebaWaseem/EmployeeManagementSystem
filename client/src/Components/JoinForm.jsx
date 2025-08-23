@@ -63,7 +63,6 @@ export default function JoinForm({ type, setFormType }) {
       const data = new FormData();
       data.append("fullName", formData.fullName);
       data.append("email", formData.email);
-      data.append("role", type);
       data.append("password", formData.password);
       if (formData.profilePic) data.append("profilePic", formData.profilePic);
       if (formData.cv) data.append("cv", formData.cv);

@@ -8,11 +8,18 @@ export const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
   return res.data; // backend ka JSON array
 });
 
-// Update user
-export const updateUser = createAsyncThunk("user/updateUser", async (user) => {
-  const res = await axios.put(`http://localhost:5000/api/users/${user.id}`, user);
-  return res.data.user; 
-});
+// update User
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (user) => {
+    const res = await axios.put(
+      `http://localhost:5000/api/users/${user.id}`,
+      user
+    );
+    return res.data.user;
+  }
+);
+
 
 // Delete user
 export const deleteUser = createAsyncThunk("user/deleteUser", async (id) => {

@@ -26,15 +26,15 @@ const userSlice = createSlice({
 
       // Update
       .addCase(updateUser.fulfilled, (state, action) => {
-        const idx = state.users.findIndex(u => u.id === action.payload.id);
+        const idx = state.users.findIndex((u) => u.id === action.payload.id);
         if (idx !== -1) state.users[idx] = action.payload;
       })
 
       // Delete
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.users = state.users.filter(u => u.id !== action.payload);
+        state.users = state.users.filter((u) => u.id !== action.payload);
       });
-  }
+  },
 });
 
 export default userSlice.reducer;

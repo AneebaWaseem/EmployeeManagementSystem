@@ -32,12 +32,15 @@ export const getUserById = async (req, res) => {
 // Update user
 export const updateUser = async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, role, password } = req.body;
 
     let updateData = { fullName, email };
 
     if (password) {
       updateData.password = await bcrypt.hash(password, 10);
+    }
+    if (role) {
+      updateData.role = role;
     }
 
     if (req.files?.profilePic) {

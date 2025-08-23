@@ -4,12 +4,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from 'react-router-dom';
 
 const navigationItems = [
-  { name: 'Home', href: '/' },
-  { name: 'Notifications', href: '/notifications' },
+  { name: 'Users', href: '/users' },
   { name: 'Tasks', href: '/tasks' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'CV', href: '/certifications' },
-  { name: 'Contact', href: '/contact' },
 ];
 
 function Navbar() {

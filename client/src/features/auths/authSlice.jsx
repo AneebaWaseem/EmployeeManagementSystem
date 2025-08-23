@@ -4,7 +4,7 @@ import { registerUser, loginUser } from "./authThunks";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: JSON.parse(localStorage.getItem("user")) || null,
     loading: false,
     error: null,
   },
