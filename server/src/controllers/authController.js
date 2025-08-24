@@ -53,7 +53,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET || "secretkey",
-      { expiresIn: "1h" }
+      { expiresIn: "24h" }
     );
 
     res.json({
@@ -70,6 +70,18 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    const user = req.user; // authenticate middleware se attach hua
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    res.json({ user });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Something went wrong" });
   }
 };

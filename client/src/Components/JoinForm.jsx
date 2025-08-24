@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../features/auths/authThunks"; 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function JoinForm({ type, setFormType }) {
   const [step, setStep] = useState(1);
@@ -20,7 +20,7 @@ export default function JoinForm({ type, setFormType }) {
 
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // input handler
   const handleChange = (e) => {
@@ -63,6 +63,7 @@ export default function JoinForm({ type, setFormType }) {
       const data = new FormData();
       data.append("fullName", formData.fullName);
       data.append("email", formData.email);
+      data.append("role", type);
       data.append("password", formData.password);
       if (formData.profilePic) data.append("profilePic", formData.profilePic);
       if (formData.cv) data.append("cv", formData.cv);
@@ -71,7 +72,7 @@ export default function JoinForm({ type, setFormType }) {
         .unwrap()
         .then(() => {
           console.log("Form submitted!", formData);
-          navigate("/users");
+          setFormType("login");
         })
         .catch((err) => console.error("Registration error:", err));
     }

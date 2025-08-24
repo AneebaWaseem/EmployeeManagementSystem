@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 const Users = () => {
   const { users, loading, error } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.auth);
+  console.log(user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const Users = () => {
   };
 
   return (
-    <div className="flex flex-row flex-wrap gap-5 w-[80vw]">
+    <div className="flex flex-row flex-wrap justify-center gap-5 w-[80vw]">
       {users?.map((item) => {
         const u = item.dataValues || item;
 
@@ -72,7 +73,7 @@ const Users = () => {
               <Link to={`/users/${u.id}`}>
                 <img
                   src={
-                    user.profilePic
+                    u.profilePic
                       ? `http://localhost:5000/${u.profilePic.replace(
                           "\\",
                           "/"
@@ -89,7 +90,7 @@ const Users = () => {
                   to={`/users/${u.id}`}
                   className="hover:underline text-dark text-xl"
                 >
-                  {user.fullName}
+                  {u.fullName}
                 </Link>
               </p>
               <p className="font-semibold">{u.role || "No Role"}</p>
@@ -97,7 +98,7 @@ const Users = () => {
 
               <a
                 href={
-                  user.cv
+                  u.cv
                     ? `http://localhost:5000/${u.cv.replace("\\", "/")}`
                     : "#"
                 }

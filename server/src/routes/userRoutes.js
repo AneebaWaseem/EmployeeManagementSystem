@@ -1,21 +1,31 @@
 import express from "express";
 import upload from "../middleware/upload.js";
+import { authenticate } from "../middleware/authenticate.js";
 import { authorize } from "../middleware/authorize.js";
 import { getUsers, getUserById, updateUser, deleteUser } from "../controllers/userController.js";
 
 const router = express.Router();
 
-router.get("/", getUsers);                // Get all users
-router.get("/:id", getUserById);          // Get single user
+// All routes below require authentication
+router.use(authenticate);
+
+// Get all users (any authenticated user)
+router.get("/", getUsers);
+
+// Get single user (any authenticated user)
+router.get("/:id", getUserById);
+
+// Update user (authenticated user only, can add role check if needed)
 router.put(
   "/:id",
   upload.fields([
     { name: "profilePic", maxCount: 1 },
     { name: "cv", maxCount: 1 }
   ]),
-  authorize("Admin"),
   updateUser
 );
-router.delete("/:id", deleteUser);        // Delete user
+
+// Delete user (only admin)
+router.delete("/:id", authorize("Admin"), deleteUser);
 
 export default router;

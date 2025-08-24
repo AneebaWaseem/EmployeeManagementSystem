@@ -1,17 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, loginUser } from "./authThunks";
+import { registerUser, loginUser, fetchCurrentUser } from "./authThunks";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: JSON.parse(localStorage.getItem("user")) || null,
+    user: null,
+    token: localStorage.getItem("token") || null, // store only JWT
     loading: false,
     error: null,
   },
   reducers: {
     logout: (state) => {
-      state.user = null;
-      localStorage.removeItem("user");
+      state.token = null;
+      localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
@@ -23,8 +24,8 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
-        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        state.token = action.payload.token; // save JWT
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -39,12 +40,27 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
-        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        state.token = action.payload.token; // save JWT
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Login failed!";
+      });
+
+    // current user
+    builder
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message;
       });
   },
 });
