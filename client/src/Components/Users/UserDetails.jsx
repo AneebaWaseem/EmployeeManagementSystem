@@ -1,36 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import dummy from "../../assets/dummy.png";
 import { Card, CardContent } from "../../@/components/ui/card";
+import { fetchUserById } from "../../features/users/userThunks";
 
 const UserDetails = () => {
   const { id } = useParams();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+
+  const { selectedUser: user, loading, error } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/api/users/${id}`);
-        setUser(res.data);
-      } catch (err) {
-        setError("User not found");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, [id]);
+    if (id) {
+      dispatch(fetchUserById(id));
+    }
+  }, [dispatch, id]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   if (!user) return null;
 
   return (
-    <Card key={user.id} className="w-[80vw] p-4">
+    <Card key={user.id} className="w-[70vw] p-4  mt-10">
       <CardContent className="flex flex-col items-center justify-center gap-2">
         <img
           src={

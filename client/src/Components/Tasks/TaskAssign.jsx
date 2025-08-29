@@ -39,7 +39,7 @@ const TaskAssign = ({ users }) => {
       }}
       viewport={{ once: true, amount: 0.3 }}
     >
-    <Card className="w-full md:w-[70vw] border-b-4 border-b-gray-300 shadow-lg">
+    <Card className="w-[90vw] md:w-[70vw] border-b-4 border-b-gray-300 shadow-lg">
       <CardContent className="flex flex-col gap-4 p-6">
         <h2 className="text-2xl font-bold mb-4">Assign Task</h2>
 

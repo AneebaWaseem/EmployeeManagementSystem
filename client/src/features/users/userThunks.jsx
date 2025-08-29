@@ -14,18 +14,37 @@ export const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
   return res.data; // backend JSON array
 });
 
-// Update user (authenticated)
-export const updateUser = createAsyncThunk("user/updateUser", async (user) => {
+// Fetch user by id
+export const fetchUserById = createAsyncThunk("user/fetchUserById", async (id) => {
   const token = getToken();
-  const res = await axios.put(
-    `http://localhost:5000/api/users/${user.id}`,
-    user,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
-  );
-  return res.data.user;
+  const res = await axios.get(`http://localhost:5000/api/users/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
 });
+
+
+// Update user (authenticated)
+export const updateUser = createAsyncThunk("user/updateUser", async ({ id, formData }, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      const res = await axios.put(
+        `http://localhost:5000/api/users/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return res.data.user;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 
 // Delete user (admin only)
 export const deleteUser = createAsyncThunk("user/deleteUser", async (id) => {

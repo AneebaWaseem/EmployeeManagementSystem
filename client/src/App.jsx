@@ -9,23 +9,27 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCurrentUser } from "./features/auths/authThunks";
 import TaskDetails from "./Components/Tasks/TaskDetails";
+import ProfileSettings from "./Components/Settings/ProfileSettings";
 
 function App() {
   
   const dispatch = useDispatch();
 
   useEffect(() => {
-  dispatch(fetchCurrentUser());
-}, [dispatch]);
+    const hasUser = localStorage.getItem("user");
+    if (!hasUser) {
+      dispatch(fetchCurrentUser()); 
+    }
+  }, [dispatch]);
 
   const router = createBrowserRouter([
     { path: "/", element: <GettingStarted /> },
     {
       path: "users",
       element: (
-        <div className="pt-20">
+        <div>
           <Navbar />
-          <div className="flex flex-row justify-around w-[90vw]">
+          <div className="pt-20 flex flex-row justify-around gap-10 w-[95vw] lg-w-[100vw]">
             <Sidebar />
             <Users />
           </div>
@@ -35,9 +39,9 @@ function App() {
     {
       path: "users/:id",
       element: (
-        <div className="pt-30">
+        <div>
           <Navbar />
-        <div className="flex flex-row justify-around w-[90vw]">
+        <div className="pt-20 flex flex-row justify-around gap-10 w-[95vw] lg-w-[100vw]">
           <Sidebar />
           <UserDetails />
         </div>
@@ -47,9 +51,9 @@ function App() {
     {
       path: "tasks",
       element: (
-        <div className="pt-30">
+        <div>
           <Navbar />
-          <div className="flex flex-row justify-around w-[90vw]">
+          <div className="pt-20 flex flex-row justify-around gap-10 w-[95vw] lg-w-[100vw]">
             <Sidebar />
             <Tasks />
           </div>
@@ -59,15 +63,27 @@ function App() {
     {
       path: "tasks/:id",
       element: (
-        <div className="pt-30">
+        <div>
           <Navbar />
-        <div className="flex flex-row justify-around w-[90vw]">
+        <div className="pt-20 flex flex-row justify-around gap-10 w-[95vw] lg-w-[100vw]">
           <Sidebar />
           <TaskDetails />
         </div>
         </div>
       ),
     }, // task details
+    {
+      path: "settings",
+      element: (
+        <div>
+          <Navbar />
+          <div className="pt-20 flex flex-row justify-around gap-10 w-[95vw] lg-w-[100vw]">
+            <Sidebar />
+            <ProfileSettings />
+          </div>
+        </div>
+      ),
+    },
   ]);
 
   return (

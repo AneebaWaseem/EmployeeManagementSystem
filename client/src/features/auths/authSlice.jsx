@@ -1,18 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { registerUser, loginUser, fetchCurrentUser } from "./authThunks";
 
+const cachedUser = JSON.parse(localStorage.getItem("user"));
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
-    token: localStorage.getItem("token") || null, // store only JWT
+    user: cachedUser || null,
+    token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
   },
   reducers: {
     logout: (state) => {
       state.token = null;
+      state.user = null;
+      state.loading = false;
+      state.error = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    },
+    // ✅ use this to update Redux + localStorage instantly after profile update
+    setUser: (state, action) => {
+      state.user = {
+        ...state.user,
+        ...action.payload, // merge changes with existing user
+      };
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
   },
   extraReducers: (builder) => {
@@ -24,8 +38,10 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.token; // save JWT
+        state.token = action.payload.token;
+        state.user = action.payload.user;
         localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -40,15 +56,17 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.token; // save JWT
+        state.token = action.payload.token;
+        state.user = action.payload.user;
         localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Login failed!";
       });
 
-    // current user
+    // Fetch current user
     builder
       .addCase(fetchCurrentUser.pending, (state) => {
         state.loading = true;
@@ -57,6 +75,7 @@ const authSlice = createSlice({
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.loading = false;
@@ -65,5 +84,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setUser } = authSlice.actions;
 export default authSlice.reducer;

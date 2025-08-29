@@ -43,7 +43,7 @@ const Tasks = () => {
   if (loading || !user) return <p>Loading current user...</p>;
 
   return (
-    <div className="flex flex-col items-center gap-5 w-[80vw]">
+    <div className="flex flex-col items-center gap-5 w-[80vw] mt-10">
       <TaskAssignForm users={users} />
       <TasksList tasks={tasks} /> {/* Tasks assigned to current user */}
       <TasksOther tasks={otherTasks} /> {/* Tasks not assigned to current user, admin only */}

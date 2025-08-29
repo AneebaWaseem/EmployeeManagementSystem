@@ -24,7 +24,7 @@ const TasksOther = ({ tasks }) => {
       }}
       viewport={{ once: true, amount: 0.3 }}
     >
-      <Card className="w-[70vw] border-b-4 border-b-gray-300 shadow-lg flex flex-col">
+      <Card className="w-[90vw] md:w-[70vw] border-b-4 border-b-gray-300 shadow-lg flex flex-col">
         <CardContent className="flex flex-col gap-4 p-6">
           <h2 className="text-xl font-bold mb-4">Tasks</h2>
           {tasks.length === 0 ? (

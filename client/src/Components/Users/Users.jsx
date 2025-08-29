@@ -35,12 +35,12 @@ const Users = () => {
   };
 
   return (
-    <div className="flex flex-row flex-wrap justify-center gap-5 w-[80vw]">
+    <div className="flex flex-row flex-wrap gap-5 w-[90vw] md:w-[80vw] mt-10">
       {users?.map((item) => {
         const u = item.dataValues || item;
 
         return (
-          <Card key={u.id} className="w-[20vw] p-4 h-[350px] relative">
+          <Card key={u.id} className="w-[42vw] md:w-[30vw] lg:w-[25vw] xl:w-[20vw] p-4 h-[350px] relative">
             {/* 3 dots menu */}
             {user?.role === "Admin" && (
             <DropdownMenu>

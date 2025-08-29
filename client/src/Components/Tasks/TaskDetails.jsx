@@ -66,7 +66,7 @@ const TaskDetails = () => {
   if (!task) return null;
 
   return (
-    <Card className="w-full md:w-[70vw] border-b-4 border-b-gray-300 shadow-lg">
+    <Card className="w-full md:w-[70vw] border-b-4 border-b-gray-300 shadow-lg mt-10">
       <CardContent className="flex flex-col gap-4 p-6">
         {/* Title & Description */}
         <div className="mb-4">

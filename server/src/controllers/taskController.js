@@ -48,7 +48,8 @@ export const getTasks = async (req, res) => {
   try {
     const userId = req.user.id; // current logged-in user
     const tasks = await Task.findAll({
-      where: { assignedTo: userId, status: 'Pending' || 'In Progress' },
+      where: { assignedTo: userId, 
+        status: { [Op.in]: ["Pending", "In Progress"] }  },
       include: [
         { model: User, as: "assignee", attributes: ["id", "fullName", "role"] }
       ]

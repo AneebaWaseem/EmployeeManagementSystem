@@ -12,10 +12,10 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-  <StrictMode>
+  // <StrictMode>
     <Provider store={store}>
       <App />
       <Toaster />
     </Provider>
-  </StrictMode>
+  // </StrictMode>
 );
