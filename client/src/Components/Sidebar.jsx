@@ -19,7 +19,7 @@ const Sidebar = () => {
   // Logout handler
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login");
+    navigate("/");
   };
 
   if (loading || !user) return <p>Loading current user...</p>;
