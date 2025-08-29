@@ -109,13 +109,13 @@ const ProfileSettings = () => {
       updateUser({ id: user.id, formData: data })
     ).unwrap();
 
-    // ✅ sync auth.user + localStorage immediately
+    // sync auth.user + localStorage immediately
     dispatch(setUser(updatedUser));
 
-    alert("Profile updated successfully ✅");
+    alert("Profile updated successfully");
   } catch (err) {
     console.error(err);
-    alert("Failed to update profile ❌");
+    alert("Failed to update profile ");
   }
 
   };

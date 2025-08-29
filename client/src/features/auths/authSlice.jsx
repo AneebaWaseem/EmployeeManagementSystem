@@ -20,7 +20,7 @@ const authSlice = createSlice({
       localStorage.removeItem("token");
       localStorage.removeItem("user");
     },
-    // ✅ use this to update Redux + localStorage instantly after profile update
+    
     setUser: (state, action) => {
       state.user = {
         ...state.user,
